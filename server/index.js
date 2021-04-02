@@ -18,9 +18,16 @@ app.use(
   })
 );
 
-massive(CONNECTION_STRING).then(db => {
+massive({
+  connectionString: CONNECTION_STRING,
+  ssl: {
+      rejectUnauthorized: false
+  }
+})
+.then(db => {
   app.set('db', db);
-});
+})
+.catch(err => console.log(err));
 
 app.listen(SERVER_PORT, () => {
   console.log(`Listening on port: ${SERVER_PORT}`);
